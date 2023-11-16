@@ -5,28 +5,32 @@ import os
 
 
 def generate_dictionary(words, number, out_file, sorting=None):
+    dict = []
     print(":: Generating dictionary")
     if os.path.exists(out_file):
         print(f" WARN: Overwriting existing '{out_file}'")
-
+    dict = words[:number]
+    
     if sorting == "sorted":
         print(" -> Sorting dictionary")
         with open(out_file, "w") as f:
-            f.write("\n".join(sorted(words[:number])) + "\n")
+            f.write("\n".join(sorted(dict)) + "\n")
+        dict.append(word)
     elif sorting == "reverse":
         print(" -> Reverse sorting dictionary")
         with open(out_file, "w") as f:
-            f.write("\n".join(sorted(words[:number], reverse=True)) + "\n")
+            f.write("\n".join(sorted(dict, reverse=True)) + "\n")
     elif sorting == "random":
         print(" -> Randomising dictionary")
         random.shuffle(words)
         with open(out_file, "w") as f:
-            f.write("\n".join(words[:number]) + "\n")
+            f.write("\n".join(dict) + "\n")
     else:
         print(" -> No sorting performed")
         with open(out_file, "w") as f:
-            f.write("\n".join(words[:number]) + "\n")
+            f.write("\n".join(dict) + "\n")
     print(f" -> Generated dictionary written to '{out_file}'")
+    return dict
 
 
 def random_word(length=40):
@@ -130,10 +134,10 @@ def main():
             print("We cannot create new words, dictionary length must be less than actual")
             quit()
 
-    generate_dictionary(words, dict_len, dict_out, dict_sorting)
+    dict = generate_dictionary(words, dict_len, dict_out, dict_sorting)
 
     query_hit = round(query_len * (query_hit_percent / 100))
-    generate_queries(words, query_hit, query_len - query_hit, query_out)
+    generate_queries(dict, query_hit, query_len - query_hit, query_out)
 
     print(":: All files generated!")
 
