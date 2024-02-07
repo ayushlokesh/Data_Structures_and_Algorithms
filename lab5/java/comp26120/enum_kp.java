@@ -40,15 +40,35 @@ public class enum_kp extends KnapSack {
 
 	QUIET=true;
 	best_value = 0;
-
+	double enum_count = 0;
+	int last_frac = 0;
+	
 	while (!(next_binary(solution, Nitems))) {
 	    /* ADD CODE IN HERE TO KEEP TRACK OF FRACTION OF ENUMERATION DONE */
-
+		enum_count++; j = 0;
+		
 	    // calculates the value and weight and feasibility:
 	    infeasible=check_evaluate_and_print_sol(solution);  
 	    /* ADD CODE IN HERE TO KEEP TRACK OF BEST SOLUTION FOUND*/
+		if(infeasible == 0){	for (i = 1; i <= Nitems; i++) {
+				if(solution.get((i))){  
+					j += this.item_values.get(i);
+				}
+			if(j > best_value){
+				best_solution.clear();
+				best_solution.addAll(solution);
+				best_value = (int)j;
+			}
+			}}
+			System.out.println("****PROGRESS BAR- "+(int)(enum_count/(Math.pow(2,Nitems))*100) +"% COMPLETED & BEST VALUE = "+best_value);
+		if((last_frac+1) < (int)(enum_count/(Math.pow(2,Nitems))*100) && enum_count%Nitems == 0){
+			System.out.println("****PROGRESS BAR- "+(int)(enum_count/(Math.pow(2,Nitems))*100) +"% COMPLETED & BEST VALUE = "+best_value);
+			last_frac = (int)(enum_count/(Math.pow(2,Nitems))*100);
+		}
+
 	}
 	/* ADD CODE TO PRINT OUT BEST SOLUTION */
+	System.out.println("Best Value is "+ best_value);
     }
 
     public boolean next_binary(ArrayList<Boolean> str, int Nitems) {

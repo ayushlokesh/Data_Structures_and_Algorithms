@@ -26,9 +26,15 @@ public class greedy_kp extends KnapSack {
 	i = 1;
 
 	sort_by_ratio(); //sort items in descending profit-to-weight ratio order
-
+	
 	/* ADD CODE HERE TO COMPUTE THE GREEDY SOLUTION */
-
+	for(i = 1; i < Nitems+1; i++){
+		if(total_weight + item_weights.get(temp_indexes.get(i)) <= Capacity){
+			total_weight += item_weights.get(temp_indexes.get(i));
+			solution.set(i, true);
+		}
+	}
+	
 	/* THE CODE SHOULD: take the items in descending 
 	   profit-to-weight ratio order (by using temp_indexes) and, 
 	   if an item fits, add it to the knapsack, and 

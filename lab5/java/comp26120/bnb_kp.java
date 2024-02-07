@@ -147,7 +147,7 @@ public class bnb_kp extends KnapSack {
 		totalp += item_values.get(temp_indexes.get(i));
 	    }
 	}
-
+	
 	if (totalw > Capacity) { // if fixed part infeasible, return
 	    return;
 	}
@@ -160,6 +160,8 @@ public class bnb_kp extends KnapSack {
 	if (i <= Nitems) {
 	    do {
 		// ADD CODE HERE to update totalw and totalp
+		totalp += item_values.get(temp_indexes.get(i));
+		totalw += item_weights.get(temp_indexes.get(i));
 		i++;
 	    } while ((i<=Nitems) && (totalw<Capacity));
 	}
@@ -221,6 +223,39 @@ public class bnb_kp extends KnapSack {
   
 
 	/* YOUR CODE GOES HERE */
+	int current_best = 0;
+	struc_sol temp = new struc_sol();
+	struc_sol temp1 = new struc_sol();
+	copy_array(final_sol, temp.solution_vec);
+	temp.val = 0;
+	temp.fixed = 0;
+	frac_bound(temp, temp.fixed);
+	current_best = temp.val;
+	insert(temp);
+
+	while (QueueSize > 0 && pqueue[1].bound > current_best){
+		
+		temp = removeMax().copy();
+		temp1 = temp.copy(); 
+		temp.solution_vec.set(temp.fixed + 1, false); temp.fixed += 1; 
+		temp1.solution_vec.set(temp1.fixed + 1, true); temp1.fixed += 1; 
+		ArrayList<struc_sol> t = new ArrayList<struc_sol>(2);
+		t.add(temp); t.add(temp1);
+		int feasi_test = 0;
+		for (struc_sol newSol : t) {
+			feasi_test = newSol.val;
+			frac_bound(newSol, newSol.fixed);
+			
+			if(feasi_test < newSol.val || newSol.solution_vec.get(newSol.fixed) == false){
+				if(current_best < newSol.val){
+					current_best = newSol.val; 
+					copy_array(newSol.solution_vec, final_sol);
+				}
+			insert(newSol);
+			}
+		}
+
+	}
 
     }
 
