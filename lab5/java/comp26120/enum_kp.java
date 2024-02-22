@@ -38,10 +38,10 @@ public class enum_kp extends KnapSack {
 	    best_solution.add(false);
 	}
 
-	QUIET=true;
+	QUIET=false;
 	best_value = 0;
 	double enum_count = 0;
-	int last_frac = 0;
+	int last_frac = -10;
 	
 	while (!(next_binary(solution, Nitems))) {
 	    /* ADD CODE IN HERE TO KEEP TRACK OF FRACTION OF ENUMERATION DONE */
@@ -60,10 +60,9 @@ public class enum_kp extends KnapSack {
 				best_value = (int)j;
 			}
 			}}
-			System.out.println("****PROGRESS BAR- "+(int)(enum_count/(Math.pow(2,Nitems))*100) +"% COMPLETED & BEST VALUE = "+best_value);
-		if((last_frac+1) < (int)(enum_count/(Math.pow(2,Nitems))*100) && enum_count%Nitems == 0){
-			System.out.println("****PROGRESS BAR- "+(int)(enum_count/(Math.pow(2,Nitems))*100) +"% COMPLETED & BEST VALUE = "+best_value);
-			last_frac = (int)(enum_count/(Math.pow(2,Nitems))*100);
+		if((last_frac+9) < (int)((enum_count/(Math.pow(2,Nitems)))*100) || (enum_count == (Math.pow(2,Nitems)) - 1)){
+			System.out.println("****PROGRESS BAR- "+(int)((enum_count/(Math.pow(2,Nitems)))*100) +"% COMPLETED & BEST VALUE = "+best_value);
+			last_frac = (int)((enum_count/(Math.pow(2,Nitems)))*100);
 		}
 
 	}
