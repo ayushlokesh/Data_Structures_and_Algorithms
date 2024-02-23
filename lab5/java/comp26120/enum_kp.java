@@ -68,8 +68,13 @@ public class enum_kp extends KnapSack {
 	}
 	/* ADD CODE TO PRINT OUT BEST SOLUTION */
 	System.out.println("Best Value is "+ best_value);
+	System.out.format("Pack items: ");
+	for (i = 1; i <= Nitems; i++) {
+	    if (best_solution.get(i) == true) {
+		System.out.format("%d ", i);
+	    }	
     }
-
+	}
     public boolean next_binary(ArrayList<Boolean> str, int Nitems) {
 	// Called with an ArrayList of 0/1 entires with length Nitems
 	// (0th item is null for some reason inherited from C implementation - I expect
